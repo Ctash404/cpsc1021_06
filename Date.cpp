@@ -1,24 +1,20 @@
 #include "Date.h"
-#include <iostream>
-#include <string>
-#include <sstream>
 
 using namespace std;
 
-const string Date::MONTHS[12] {"January", "February", 
-    "March", "April", "May", "June","July", "August", 
-    "September", "October", "November", "December"};
+// An array that holds the names of all the months
+const string Date::MONTHS[12] {"JANUARY", "FEBRUARY", 
+    "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", 
+    "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"};
 
-Date::Date(int m, int d, int y) : month{m}, day{d}, year{y} {}
-
-void Date::setMonth(int) {
-
+void Date::setMonth(int m) {
+    month = m;
 }
-void Date::setDay(int) {
-
+void Date::setDay(int d) {
+    day = d;
 }
-void Date::setYear(int) {
-
+void Date::setYear(int y) {
+    year = y;
 }
 
 // getter functions
@@ -31,12 +27,35 @@ const int Date::getDay()
 const int Date::getYear() 
     { return year; }
 
-// builds and returns a string that is printed into output file
+// Creates the string with the correct name of the month
+// based on the month number
 string Date::print() {
+    stringstream ss;
+    string monthName;
 
+    monthName = MONTHS[month - 1];
+
+    ss << left << setw(10) << monthName << setw(3) << day << right << setw(5) << year;
+    
+    return ss.str();
 }
 
-// returns true if first date is earlier than second date
-bool Date::compare(const Date, const Date) {
+// Finds the correct order of the dates
+bool Date::compare(const Date d1, const Date d2) 
+{
+    bool first = false;
+    if(d1.year < d2.year)
+        { first = true; }
 
+    if(d1.year == d2.year)
+    {
+        if(d1.month == d2.month)
+        {
+            if(d1.day < d2.day)
+                { first = true; }
+        }
+        else if(d1.month < d2.month)
+            { first = true; }
+    }
+    return first;
 }
